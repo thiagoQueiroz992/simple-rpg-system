@@ -11,7 +11,7 @@ class Character:
         return self.__health
     
     def set_health(self, value: int) -> None:
-        if self.__health > 0:
+        if value > 0:
             self.__health = value
     
     def attack(self, target) -> None:
