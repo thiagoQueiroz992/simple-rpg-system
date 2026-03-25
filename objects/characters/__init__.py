@@ -13,6 +13,12 @@ class Character:
     def set_health(self, value: int) -> None:
         if self.__health > 0:
             self.__health = value
+    
+    def attack(self, target) -> None:
+        target.take_damage(self.__attack)
+
+    def take_damage(self, damage_taken: int) -> None:
+        self.__health -= damage_taken
 
 class Player(Character):
     def __init__(self, name, health, attack):
