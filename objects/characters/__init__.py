@@ -1,3 +1,6 @@
+import random
+from time import sleep
+
 class Character:
     def __init__(self, name: str, health: int, attack: int) -> None:
         self.name = name
@@ -14,6 +17,12 @@ class Character:
 class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name = 'Player', health = 100, attack = 20)
+    
+    def move(self) -> None:
+        founding_time = random.randrange(3, 10)
+        print(f'{self.name} is moving...')
+        sleep(founding_time)
+        print(f'{self.name} has found an enemy!')
 
 class Enemy(Character):
     def __init__(self, name, health, attack):
