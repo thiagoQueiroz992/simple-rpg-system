@@ -23,29 +23,30 @@ class Character:
 class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
-        self.__current_fighting_enemy = None
 
-    def move(self):
+    def move(self) -> None:
         time_to_find = randrange(3, 11)
         print(f'{self.name} is moving...')
         sleep(time_to_find)
         print(f'{self.name} has found an enemy')
+        self.find_enemy()
+
+    def find_enemy(self) -> None:
         enemy_data = {'name': choice(('Zombie', 'Vampire', 'Skeleton', 'Witch', 'Undead Knight')), 'health': randrange(80, 201), 'attack': randrange(5, 21)}
-        self.__current_fighting_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
-        print(self.__current_fighting_enemy.__dict__)
-        self.fight()
-    
-    def fight(self):
+        target_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
+        print(target_enemy.__dict__)
+        self.fight(target_enemy)    
+        
+    def fight(self, target) -> None:
         while True:
             if self.get_health() > 0:
-                self.attack(self.__current_fighting_enemy)
-                print('Enemy:', self.__current_fighting_enemy.get_health())
+                self.attack(target)
+                print('Enemy:', target.get_health())
             else:
                 print('Played died')
                 break
-
-            if self.__current_fighting_enemy.get_health() > 0:
-                self.__current_fighting_enemy.attack(self)
+            if target.get_health() > 0:
+                target.attack(self)
                 print('Player:', self.get_health())
             else:
                 print('Enemy died')
