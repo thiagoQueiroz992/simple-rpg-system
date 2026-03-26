@@ -36,7 +36,12 @@ class Player(Character):
         enemy_data = {'name': choice(('Zombie', 'Vampire', 'Skeleton', 'Witch', 'Undead Knight')), 'health': randrange(80, 201), 'attack': randrange(5, 21)}
         target_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
         print(target_enemy.__dict__)
-        self.fight(target_enemy)
+        fight_against_enemy = Question(f'Do you want to fight against {target_enemy.name}?', 'YES', 'NO').show_question()
+
+        if fight_against_enemy == 0:
+            self.fight(target_enemy)
+        else:
+            exit()
         
     def fight(self, target) -> None:
         while True:
