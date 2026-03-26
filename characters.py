@@ -1,5 +1,6 @@
 from time import sleep
 from random import randrange, choice
+from options import Question
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -35,7 +36,7 @@ class Player(Character):
         enemy_data = {'name': choice(('Zombie', 'Vampire', 'Skeleton', 'Witch', 'Undead Knight')), 'health': randrange(80, 201), 'attack': randrange(5, 21)}
         target_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
         print(target_enemy.__dict__)
-        self.fight(target_enemy)    
+        self.fight(target_enemy)
         
     def fight(self, target) -> None:
         while True:
