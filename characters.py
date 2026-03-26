@@ -13,3 +13,13 @@ class Character:
     
     def attack(self, target):
         target.set_health(target.get_health() - self.__attack)
+
+
+class Player(Character):
+    def __init__(self, name, health, attack):
+        super().__init__(name, health, attack)
+
+
+class Enemy(Character):
+    def __init__(self, name, health, attack):
+        super().__init__(name, health, attack)
