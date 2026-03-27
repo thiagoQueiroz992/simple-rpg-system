@@ -10,7 +10,7 @@ class Question:
         while True:
             try:
                 answer = int(input(''))
-            except KeyboardInterrupt or ValueError:
+            except (KeyboardInterrupt, ValueError):
                 print('Invalid input!')
                 continue
             else:
