@@ -1,6 +1,7 @@
 from rich.table import Table
 from rich.panel import Panel
 from rich import print
+from rich import inspect
 
 class Question:
     def __init__(self, question: str, *options: str):

@@ -2,6 +2,7 @@ from time import sleep
 from random import randrange, choice
 from options import Question
 from rich import print
+from rich import inspect
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -23,6 +24,9 @@ class Character:
     
     def attack(self, target) -> None:
         target.set_health(target.get_health() - self.__attack)
+    
+    def die(self, death_message: str) -> None:
+        print(death_message)
 
 
 class Player(Character):
@@ -31,6 +35,7 @@ class Player(Character):
 
     def idle(self) -> None:
         print('Player is idle.')
+        print(self.get_health())
         action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME').show_question()
         
         match action:
@@ -87,8 +92,9 @@ class Player(Character):
                     case 2:
                         print('You chose to flee the fight.')
                         self.idle()
+                        break
             else:
-                print('YOU DIED!')
+                self.die('YOU DIED!')
                 break
             
             if target.get_health() > 0:
@@ -98,6 +104,26 @@ class Player(Character):
             else:
                 print(f'YOU DEFEATED {target.name.upper()}!')
                 break
+    
+    def die(self, death_message) -> None:
+        super().die(death_message)
+
+        def respawn(respawning_time: int = 5) -> None:
+            respawn_question = Question('Respawn?', 'YES', 'QUIT GAME').show_question()
+            
+            match respawn_question:
+                case 0:
+                    print('Respawning in:', end=' ')
+                    sleep(1)
+                    for t in range(respawning_time, 0, -1):
+                        print(t, end='...')
+                        sleep(1)
+                    print()
+                    self.set_health(100)
+                    self.idle()
+                case 1:
+                    exit()
+        respawn()
         
 
 class Enemy(Character):
