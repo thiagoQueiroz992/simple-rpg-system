@@ -31,7 +31,7 @@ class Player(Character):
 
     def idle(self) -> None:
         print('Player is idle.')
-        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'EXIT GAME').show_question()
+        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME').show_question()
         
         match action:
             case 0:
@@ -41,6 +41,9 @@ class Player(Character):
                 print('Inventory is not available for now.')
                 self.idle()
             case 2:
+                print('Status are not available for now')
+                self.idle()
+            case 3:
                 exit()
     
     def move(self) -> None:
