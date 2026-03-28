@@ -18,7 +18,10 @@ class Character:
         else:
             self.__health = 0
     
-    def attack(self, target):
+    def get_attack(self) -> int:
+        return self.__attack
+    
+    def attack(self, target) -> None:
         target.set_health(target.get_health() - self.__attack)
 
 
@@ -34,9 +37,15 @@ class Player(Character):
         self.find_enemy()
 
     def find_enemy(self) -> None:
-        enemy_data = {'name': choice(('Zombie', 'Vampire', 'Skeleton', 'Witch', 'Undead Knight')), 'health': randrange(80, 201), 'attack': randrange(5, 21)}
+        enemy_data = {
+            'name':choice(('Zombie', 'Vampire', 'Skeleton', 'Witch','Undead Knight')),
+            'health': randrange(80, 201),
+            'attack': randrange(5, 21)
+            }
+        
         target_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
         print(target_enemy.__dict__)
+        
         fight_against_enemy = Question(f'Do you want to fight against [cyan bold]{target_enemy.name}[/cyan bold]?', 'FIGHT', 'FLEE').show_question()
 
         if fight_against_enemy == 0:
@@ -45,19 +54,22 @@ class Player(Character):
             exit()
         
     def fight(self, target) -> None:
+        print(f'You are fighting against {target.name}!')
+        fight_action = Question('What will you do?', 'ATTACK', 'DO NOTHING', 'FLEE')
+        action_answer = 0
         while True:
             if self.get_health() > 0:
-                self.attack(target)
-                print('Enemy:', target.get_health())
-            else:
-                print('Played died')
-                break
-            if target.get_health() > 0:
-                target.attack(self)
-                print('Player:', self.get_health())
-            else:
-                print('Enemy died')
-                break
+                action_answer = fight_action.show_question()
+                
+                match action_answer:
+                    case 0:
+                        self.attack(target)
+                        print(f'You attacked {target.name}!')
+                    case 1:
+                        print('You chose to do nothing.')
+                    case 2:
+                        print('You chose to flee the fight.')
+                        break
         
 
 class Enemy(Character):
