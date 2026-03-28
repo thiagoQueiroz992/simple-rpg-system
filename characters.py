@@ -29,6 +29,20 @@ class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
 
+    def idle(self) -> None:
+        print('Player is idle.')
+        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'EXIT GAME').show_question()
+        
+        match action:
+            case 0:
+                print('You are going to walk around.')
+                self.move()
+            case 1:
+                print('Inventory is not available for now.')
+                self.idle()
+            case 2:
+                exit()
+    
     def move(self) -> None:
         time_to_find = randrange(3, 11)
         print(f'{self.name} is moving...')
@@ -51,7 +65,7 @@ class Player(Character):
         if fight_against_enemy == 0:
             self.fight(target_enemy)
         else:
-            exit()
+            self.idle()
         
     def fight(self, target) -> None:
         print(f'You are fighting against {target.name}!')
@@ -69,7 +83,7 @@ class Player(Character):
                         print('You chose to do nothing.')
                     case 2:
                         print('You chose to flee the fight.')
-                        break
+                        self.idle()
         
 
 class Enemy(Character):
