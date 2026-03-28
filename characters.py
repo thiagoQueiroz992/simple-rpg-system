@@ -84,6 +84,17 @@ class Player(Character):
                     case 2:
                         print('You chose to flee the fight.')
                         self.idle()
+            else:
+                print('YOU DIED!')
+                break
+            
+            if target.get_health() > 0:
+                target.attack(self)
+                print(f'\n\n{target.name} attacked you!\n\n')
+            
+            else:
+                print(f'YOU DEFEATED {target.name.upper()}!')
+                break
         
 
 class Enemy(Character):
