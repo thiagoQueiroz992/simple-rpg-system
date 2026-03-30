@@ -3,6 +3,7 @@ from random import randrange, choice
 from options import Question
 from rich import print
 from rich import inspect
+from inventory import Apple
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -36,7 +37,7 @@ class Player(Character):
     def idle(self) -> None:
         print('Player is idle.')
         print(self.get_health())
-        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME').show_question()
+        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EAT APPLE').show_question()
         
         match action:
             case 0:
@@ -50,6 +51,9 @@ class Player(Character):
                 self.idle()
             case 3:
                 exit()
+            case 4:
+                ap = Apple(1).use(self)
+                self.idle()
     
     def move(self) -> None:
         time_to_find = randrange(3, 11)
