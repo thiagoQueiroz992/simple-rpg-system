@@ -1,8 +1,9 @@
 from time import sleep
 from random import randrange, choice
-from options import Question
+from os import system
 from rich import print
 from rich import inspect
+from options import Question
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -26,6 +27,7 @@ class Character:
         target.set_health(target.get_health() - self.__attack)
     
     def die(self, death_message: str) -> None:
+        system('cls')
         print(death_message)
 
 
@@ -34,6 +36,7 @@ class Player(Character):
         super().__init__(name, health, attack)
 
     def idle(self) -> None:
+        system('cls')
         print('Player is idle.')
         print(self.get_health())
         action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME').show_question()
@@ -52,13 +55,15 @@ class Player(Character):
                 exit()
     
     def move(self) -> None:
+        system('cls')
         time_to_find = randrange(3, 11)
         print(f'{self.name} is moving...')
         sleep(time_to_find)
-        print(f'{self.name} has found an enemy')
         self.find_enemy()
 
     def find_enemy(self) -> None:
+        system('cls')
+        print(f'{self.name} has found an enemy')
         enemy_data = {
             'name':choice(('Zombie', 'Vampire', 'Skeleton', 'Witch','Undead Knight')),
             'health': randrange(80, 201),
@@ -76,6 +81,7 @@ class Player(Character):
             self.idle()
         
     def fight(self, target) -> None:
+        system('cls')
         print(f'You are fighting against {target.name}!')
         fight_action = Question('What will you do?', 'ATTACK', 'DO NOTHING', 'FLEE')
         action_answer = 0
