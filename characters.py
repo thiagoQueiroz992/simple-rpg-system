@@ -33,6 +33,7 @@ class Character:
 class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
+        self.__inventory = inventory.Inventory()
 
     def idle(self) -> None:
         print('Player is idle.')
@@ -51,7 +52,7 @@ class Player(Character):
             case 3:
                 exit()
             case 4:
-                ap = inventory.Apple(1).use(self)
+                self.__inventory.use_item(0, self)
                 self.idle()
     
     def move(self) -> None:
@@ -62,13 +63,12 @@ class Player(Character):
         self.find_enemy()
     
     def open_inventory(self) -> None:
-        inv = inventory.Inventory()
-        print(inv.__dict__)
+        print(self.__inventory.__dict__)
         while True:
             item_management = Question('What will you do in inventory?', 'ADD ITEM', 'LEAVE').show_question()
             if item_management == 0:
-                inv.add_item(inventory.Apple(16) if int(input('Which item?')) == 0 else inventory.Wood(2))
-                print(inv.__dict__)
+                self.__inventory.add_item(inventory.Apple() if int(input('Which item?')) == 0 else inventory.Wood(), 3)
+                print(self.__inventory.__dict__)
             else:
                 self.idle()
                 break
