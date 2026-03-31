@@ -1,9 +1,9 @@
+import inventory
 from time import sleep
 from random import randrange, choice
 from options import Question
 from rich import print
 from rich import inspect
-from inventory import Apple
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -44,15 +44,14 @@ class Player(Character):
                 print('You are going to walk around.')
                 self.move()
             case 1:
-                print('Inventory is not available for now.')
-                self.idle()
+                self.open_inventory()
             case 2:
                 print('Status are not available for now')
                 self.idle()
             case 3:
                 exit()
             case 4:
-                ap = Apple(1).use(self)
+                ap = inventory.Apple(1).use(self)
                 self.idle()
     
     def move(self) -> None:
@@ -61,6 +60,10 @@ class Player(Character):
         sleep(time_to_find)
         print(f'{self.name} has found an enemy')
         self.find_enemy()
+    
+    def open_inventory(self) -> None:
+        inv = inventory.Inventory()
+        print(inv.__dict__)
 
     def find_enemy(self) -> None:
         enemy_data = {
