@@ -64,6 +64,14 @@ class Player(Character):
     def open_inventory(self) -> None:
         inv = inventory.Inventory()
         print(inv.__dict__)
+        while True:
+            item_management = Question('What will you do in inventory?', 'ADD ITEM', 'LEAVE').show_question()
+            if item_management == 0:
+                inv.add_item(inventory.Apple(16) if int(input('Which item?')) == 0 else inventory.Wood(2))
+                print(inv.__dict__)
+            else:
+                self.idle()
+                break
 
     def find_enemy(self) -> None:
         enemy_data = {

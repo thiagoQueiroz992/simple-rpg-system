@@ -8,23 +8,20 @@ class Inventory:
         self.__items = []
     
     def add_item(self, item):
-        if len(self.__items) <= self.slots:
-            for a in range(item.get_amount(), 0, -1):
-                if not self.__items:
-                    self.__items.append(item)
+        for a in range(item.get_amount(), 0, -1):
+            for i, s in enumerate(self.__items):
+                if isinstance(item, type(s['item'])) and s['amount'] < self.stack_max_items:
+                    self.__items[i]['amount'] += 1
                     break
                 else:
-                    for s in self.__items:
-                        if isinstance(item, type(s)) and s.get_amount() < self.stack_max_items:
-                            s.set_amount(s.get_amount() + 1)
-                        else:
-                            if len(self.__items) < 10:
-                                self.__items.append(item)
-                                break
-                            else:
-                                break
-        else:
-            print('Inventory is full')
+                    continue
+            else:
+                if len(self.__items) < self.slots:
+                    self.__items.append({'item': item, 'amount': item.get_amount()})
+                    break
+                else:
+                    print('Inventory is full.')
+                    break
 
 
 
@@ -42,6 +39,7 @@ class Item:
     def set_amount(self, amount: int = 1):
         self.__amount += amount
 
+
 class Apple(Item):
     def __init__(self, amount = 1):
         super().__init__(amount)
@@ -56,3 +54,9 @@ class Apple(Item):
             if target.get_health() > 100:
                 target.set_health(100)
         cure()
+
+
+class Wood(Item):
+    def __init__(self, amount = 1):
+        super().__init__(amount)
+        self.name = 'Wood'
