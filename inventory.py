@@ -1,4 +1,5 @@
 from rich import inspect
+from options import InventoryDisplay
 
 class Inventory:
     slots = 10
@@ -28,6 +29,9 @@ class Inventory:
         self.__items[slot]['item'].using_effects(target)
         if self.__items[slot]['amount'] == 0:
             self.__items.pop(slot)
+    
+    def display_inventory(self, target):
+        InventoryDisplay(target, self.__items).show_display()
 
 
 class Item:

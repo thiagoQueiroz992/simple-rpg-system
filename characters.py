@@ -63,7 +63,7 @@ class Player(Character):
         self.find_enemy()
     
     def open_inventory(self) -> None:
-        print(self.__inventory.__dict__)
+        self.__inventory.display_inventory(self)
         while True:
             item_management = Question('What will you do in inventory?', 'ADD ITEM', 'LEAVE').show_question()
             if item_management == 0:
