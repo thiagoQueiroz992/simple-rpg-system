@@ -4,6 +4,7 @@ from random import randrange, choice
 from options import Question
 from rich import print
 from rich import inspect
+from os import system
 
 class Character:
     def __init__(self, name: str, health: int, attack: int):
@@ -33,6 +34,7 @@ class Character:
         target.set_health(target.get_health() - self.__attack)
     
     def die(self, death_message: str) -> None:
+        system('cls')
         print(death_message)
 
 
@@ -43,7 +45,7 @@ class Player(Character):
         self.__inventory = inventory.Inventory()
 
     def idle(self) -> None:
-        print('Player is idle.')
+        system('cls')
         print(self.get_health())
         action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EQUIP SWORD').show_question()
         
@@ -64,6 +66,7 @@ class Player(Character):
                 self.idle()
     
     def move(self) -> None:
+        system('cls')
         time_to_find = randrange(3, 11)
         print(f'{self.name} is moving...')
         sleep(time_to_find)
@@ -99,12 +102,14 @@ class Player(Character):
             self.idle()
         
     def fight(self, target) -> None:
+        system('cls')
         print(f'You are fighting against {target.name}!')
         fight_action = Question('What will you do?', 'ATTACK', 'DO NOTHING', 'FLEE')
         action_answer = 0
         while True:
             if self.get_health() > 0:
                 action_answer = fight_action.show_question()
+                system('cls')
                 
                 match action_answer:
                     case 0:

@@ -3,6 +3,7 @@ from rich.panel import Panel
 from rich.align import Align
 from rich import print
 from rich import inspect
+from os import system
 
 class Question:
     def __init__(self, question: str, *options: str):
@@ -42,6 +43,7 @@ class InventoryDisplay:
         self.__inv = inv
 
     def show_display(self):
+        system('cls')
         header = Panel(Align('INVENTORY', align='center'), title=self.__target.name, style='yellow bold')
         item_display = Table(style='blue bold', show_header=False, expand=True)
         item_display.add_column('SLOT', width=-2)
