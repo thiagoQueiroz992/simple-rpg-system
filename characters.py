@@ -23,6 +23,12 @@ class Character:
     def get_attack(self) -> int:
         return self.__attack
     
+    def set_attack(self, value: int):
+        if value > 0:
+            self.__attack = value
+        else:
+            self.__attack = 0
+    
     def attack(self, target) -> None:
         target.set_health(target.get_health() - self.__attack)
     
@@ -33,12 +39,13 @@ class Character:
 class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
+        self.equipped_weapon = None
         self.__inventory = inventory.Inventory()
 
     def idle(self) -> None:
         print('Player is idle.')
         print(self.get_health())
-        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EAT APPLE').show_question()
+        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EQUIP SWORD').show_question()
         
         match action:
             case 0:
@@ -53,6 +60,7 @@ class Player(Character):
                 exit()
             case 4:
                 self.__inventory.use_item(0, self)
+                print(print(self.get_attack()))
                 self.idle()
     
     def move(self) -> None:
@@ -67,7 +75,7 @@ class Player(Character):
         while True:
             item_management = Question('What will you do in inventory?', 'ADD ITEM', 'LEAVE').show_question()
             if item_management == 0:
-                self.__inventory.add_item(inventory.Apple() if int(input('Which item?')) == 0 else inventory.Wood(), 3)
+                self.__inventory.add_item(inventory.Sword() if int(input('Which item?')) == 0 else inventory.Wood(), 3)
                 print(self.__inventory.__dict__)
             else:
                 self.idle()

@@ -18,7 +18,7 @@ class Inventory:
                     continue
             else:
                 if len(self.__items) < self.slots:
-                    self.__items.append({'item': item, 'amount': amount})
+                    self.__items.append({'item': item, 'amount': a})
                     break
                 else:
                     print('Inventory is full.')
@@ -37,9 +37,6 @@ class Inventory:
 class Item:
     def __init__(self):
         self.name = 'item'
-    
-    def using_effects(self, target):
-        pass
 
 
 class Apple(Item):
@@ -49,8 +46,6 @@ class Apple(Item):
         self.__health_restored = 10
     
     def using_effects(self, target):
-        super().using_effects(target)
-
         target.set_health(target.get_health() + self.__health_restored)
         if target.get_health() > 100:
             target.set_health(100)
@@ -60,3 +55,14 @@ class Wood(Item):
     def __init__(self):
         super().__init__()
         self.name = 'Wood'
+
+
+class Sword(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Sword'
+        self.__damage = 50
+    
+    def using_effects(self, target):
+        target.equipped_weapon = self
+        target.set_attack(self.__damage)
