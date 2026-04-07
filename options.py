@@ -59,3 +59,21 @@ class InventoryDisplay:
                 item_display.add_row(Align(str(r), align='center'), '---', '---')
         print(item_display)
             
+
+class StatusDisplay:
+    def __init__(self, target):
+        self.__target = target
+    
+    def show_display(self):
+        system('cls')
+        header = Panel(Align('STATUS', align='center'), title=self.__target.name, style='yellow bold')
+        status_display = Table(style='blue bold', show_header=False, expand=True)
+        status_display.add_column('STATUS', width=0)
+        status_display.add_column('VALUE', width=3)
+
+        status_display.add_row(Align('[cyan bold]Name[/cyan bold]', align='center'), Align(self.__target.name, align='center'))
+        status_display.add_row(Align('[cyan bold]Health[/cyan bold]', align='center'), Align(str(self.__target.get_health()), align='center'))
+        status_display.add_row(Align('[cyan bold]Attack[/cyan bold]', align='center'), Align(str(self.__target.get_attack()), align='center'))
+
+        print(header)
+        print(status_display)

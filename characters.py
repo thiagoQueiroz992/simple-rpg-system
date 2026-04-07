@@ -1,7 +1,7 @@
 import inventory
 from time import sleep
 from random import randrange, choice
-from options import Question
+from options import Question, StatusDisplay
 from rich import print
 from rich import inspect
 from os import system
@@ -46,7 +46,6 @@ class Player(Character):
 
     def idle(self) -> None:
         system('cls')
-        print(self.get_health())
         action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EQUIP SWORD').show_question()
         
         match action:
@@ -56,8 +55,7 @@ class Player(Character):
             case 1:
                 self.open_inventory()
             case 2:
-                print('Status are not available for now')
-                self.idle()
+                self.open_status()
             case 3:
                 exit()
             case 4:
@@ -83,6 +81,13 @@ class Player(Character):
             else:
                 self.idle()
                 break
+    
+    def open_status(self) -> None:
+        StatusDisplay(self).show_display()
+
+        close = Question('Close status?', 'CLOSE').show_question()
+        if close == 0:
+            self.idle()
 
     def find_enemy(self) -> None:
         enemy_data = {
