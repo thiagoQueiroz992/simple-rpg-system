@@ -74,10 +74,9 @@ class Player(Character):
     def open_inventory(self) -> None:
         self.__inventory.display_inventory(self)
         while True:
-            item_management = Question('What will you do in inventory?', 'ADD ITEM', 'LEAVE').show_question()
+            item_management = Question('What will you do in inventory?', 'USE ITEM', 'LEAVE').show_question()
             if item_management == 0:
-                self.__inventory.add_item(inventory.Sword() if int(input('Which item?')) == 0 else inventory.Wood(), 3)
-                print(self.__inventory.__dict__)
+                self.__inventory.selection_mode(self)
             else:
                 self.idle()
                 break
