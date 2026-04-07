@@ -6,9 +6,12 @@ from rich import inspect
 from os import system
 
 class Question:
-    def __init__(self, question: str, *options: str):
+    def __init__(self, question: str, *options: str, multi_choice = True, min_range: int = 0, max_range: int = 1):
         self.__question = question
         self.__options = options
+        self.__multi_choice = multi_choice
+        self.__min_range = min_range
+        self.__max_range = max_range
     
     def show_question(self) -> int:
         question_box = Panel(self.__question, title='Choose Time', style='bold yellow')
@@ -21,7 +24,7 @@ class Question:
             answer_box.add_row(str(i), o, style='cyan bold')
         
         print(question_box)
-        print(answer_box)
+        if self.__multi_choice: print(answer_box)
         
         while True:
             try:
@@ -30,11 +33,17 @@ class Question:
                 print('[red bold]Invalid input![/red bold]')
                 continue
             else:
-                if answer in range(0, len(self.__options)):
-                    return answer
+                if self.__multi_choice:
+                    if answer in range(0, len(self.__options)):
+                        return answer
+                    else:
+                        print('[red bold]Invalid input![/red bold]')
+                        continue
                 else:
-                    print('[red bold]Invalid input![/red bold]')
-                    continue
+                    if answer in range(self.__min_range, self.__max_range):
+                        return answer
+                    else:
+                        print('[red bold]Invalid input![/red bold]')
 
 
 class InventoryDisplay:
