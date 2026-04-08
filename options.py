@@ -101,3 +101,19 @@ class LootGenerator:
                 self.__loot_items.append([i[0], item_quant])
         random.shuffle(self.__loot_items)
         return self.__loot_items
+
+
+class LootDisplay:
+    def __init__(self, target, loot_items: list):
+        self.__target = target
+        self.__loot = loot_items
+    
+    def show_display(self) -> None:
+        system('cls')
+        header = Panel(Align('ENEMY LOOT', align='center'), title=self.__target.name, style='yellow bold')
+        loot_display = Table(style='blue bold', show_header=False, expand=True)
+        loot_display.add_column('ITEM', width=3)
+        loot_display.add_column('AMOUNT', width=0)
+
+        for l in self.__loot:
+            loot_display.add_row(l[0].name, str(l[1]))
