@@ -73,7 +73,48 @@ class Sword(Item):
     def __init__(self):
         super().__init__()
         self.name = 'Sword'
-        self.__damage = 50
+        self.__damage = 35
+    
+    def using_effects(self, target):
+        target.equipped_weapon = self
+        target.set_attack(self.__damage)
+
+
+class Bone(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Bone'
+
+
+class Wire(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Wire'
+
+
+class Ingot(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Ingot'
+
+
+class Meat(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Meat'
+        self.__health_restored = 15
+    
+    def using_effects(self, target):
+        target.set_health(target.get_health() + self.__health_restored)
+        if target.get_health() > 100:
+            target.set_health(100)
+
+
+class LegendarySword(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Legendary Sword'
+        self.__damage = 60
     
     def using_effects(self, target):
         target.equipped_weapon = self
