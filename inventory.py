@@ -1,5 +1,6 @@
 from rich import inspect
 from options import Question, InventoryDisplay
+from os import system
 
 class Inventory:
     slots = 10
@@ -34,6 +35,8 @@ class Inventory:
         InventoryDisplay(target, self.__items).show_display()
     
     def selection_mode(self, target):
+        system('cls')
+        self.display_inventory(target)
         selection = Question('Enter a item\'s slot position:', '0', multi_choice=False, max_range=self.slots).show_question()
         if len(self.__items) - 1 < selection or self.__items == False:
             print('There\'s no item in this slot.')

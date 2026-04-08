@@ -78,6 +78,8 @@ class Player(Character):
             item_management = Question('What will you do in inventory?', 'USE ITEM', 'LEAVE').show_question()
             if item_management == 0:
                 self.__inventory.selection_mode(self)
+                self.open_inventory()
+                break
             else:
                 self.idle()
                 break
