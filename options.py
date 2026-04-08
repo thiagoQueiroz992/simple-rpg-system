@@ -1,3 +1,4 @@
+import random
 from rich.table import Table
 from rich.panel import Panel
 from rich.align import Align
@@ -86,3 +87,17 @@ class StatusDisplay:
 
         print(header)
         print(status_display)
+
+
+class LootGenerator:
+    def __init__(self, loot_table: list):
+        self.__loot_table = loot_table
+        self.__loot_items = []
+    
+    def generate_loot(self) -> list:
+        for i in self.__loot_table:
+            if random.random() <= i[1] * 0.01:
+                item_quant = random.randint(i[2], i[3])
+                self.__loot_items.append([i[0], item_quant])
+        random.shuffle(self.__loot_items)
+        return self.__loot_items
