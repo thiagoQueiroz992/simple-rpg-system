@@ -117,3 +117,6 @@ class LootDisplay:
 
         for l in self.__loot:
             loot_display.add_row(l[0].name, str(l[1]))
+        
+        print(header)
+        print(loot_display)
