@@ -120,3 +120,10 @@ class LootDisplay:
         
         print(header)
         print(loot_display)
+    
+    def collect(self, target_inventory):
+        take = Question('Collect loot?', 'YES', 'NO').show_question()
+
+        if take == 0:
+            for i in self.__loot:
+                target_inventory.add_item(i[0], i[1])

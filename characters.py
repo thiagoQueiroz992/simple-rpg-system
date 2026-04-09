@@ -73,7 +73,6 @@ class Player(Character):
         self.find_enemy()
     
     def open_inventory(self) -> None:
-        self.__inventory.add_item(inventory.Apple(), 1)
         self.__inventory.display_inventory(self)
         while True:
             item_management = Question('What will you do in inventory?', 'USE ITEM', 'LEAVE').show_question()
@@ -139,7 +138,8 @@ class Player(Character):
             
             else:
                 print(f'YOU DEFEATED {target.name.upper()}!')
-                target.get_loot()
+                target.get_loot(self.__inventory)
+                self.idle()
                 break
     
     def die(self, death_message) -> None:
@@ -167,7 +167,8 @@ class Enemy(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
     
-    def get_loot(self):
+    def get_loot(self, target_inventory):
         loot_generated = LootGenerator(looting['enemy']).generate_loot()
         display = LootDisplay(self, loot_generated)
         display.show_display()
+        display.collect(target_inventory)
