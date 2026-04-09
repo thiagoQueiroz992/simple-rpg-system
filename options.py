@@ -98,7 +98,7 @@ class LootGenerator:
         for i in self.__loot_table:
             if random.random() <= i[1] * 0.01:
                 item_quant = random.randint(i[2], i[3])
-                self.__loot_items.append([i[0], item_quant])
+                self.__loot_items.append([i[0](), item_quant])
         random.shuffle(self.__loot_items)
         return self.__loot_items
 

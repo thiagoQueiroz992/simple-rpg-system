@@ -1,7 +1,8 @@
 import inventory
 from time import sleep
 from random import randrange, choice
-from options import Question, StatusDisplay
+from options import Question, StatusDisplay, LootGenerator, LootDisplay
+from loot_tables import looting
 from rich import print
 from rich import inspect
 from os import system
@@ -138,6 +139,7 @@ class Player(Character):
             
             else:
                 print(f'YOU DEFEATED {target.name.upper()}!')
+                target.get_loot()
                 break
     
     def die(self, death_message) -> None:
@@ -164,3 +166,8 @@ class Player(Character):
 class Enemy(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
+    
+    def get_loot(self):
+        loot_generated = LootGenerator(looting['enemy']).generate_loot()
+        display = LootDisplay(self, loot_generated)
+        display.show_display()

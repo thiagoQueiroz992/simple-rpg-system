@@ -98,6 +98,12 @@ class Ingot(Item):
         self.name = 'Ingot'
 
 
+class Coin(Item):
+    def __init__(self):
+        super().__init__()
+        self.name = 'Coin'
+
+
 class Meat(Item):
     def __init__(self):
         super().__init__()
