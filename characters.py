@@ -42,12 +42,13 @@ class Character:
 class Player(Character):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
+        self.default_max_health = 100
         self.equipped_weapon = None
         self.__inventory = inventory.Inventory()
 
     def idle(self) -> None:
         system('cls')
-        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME', 'EQUIP SWORD').show_question()
+        action = Question('What do you want to do now?', 'WALK', 'OPEN INVENTORY', 'VIEW YOUR STATUS', 'EXIT GAME').show_question()
         
         match action:
             case 0:
@@ -59,10 +60,6 @@ class Player(Character):
                 self.open_status()
             case 3:
                 exit()
-            case 4:
-                self.__inventory.use_item(0, self)
-                print(print(self.get_attack()))
-                self.idle()
     
     def move(self) -> None:
         system('cls')

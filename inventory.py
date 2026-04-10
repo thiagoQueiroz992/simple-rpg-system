@@ -1,6 +1,7 @@
 from rich import inspect
 from options import Question, InventoryDisplay
 from os import system
+from time import sleep
 
 class Inventory:
     slots = 10
@@ -26,10 +27,17 @@ class Inventory:
                     break
     
     def use_item(self, slot: int, target) -> None:
-        self.__items[slot]['amount'] -= 1
-        self.__items[slot]['item'].using_effects(target)
-        if self.__items[slot]['amount'] == 0:
-            self.__items.pop(slot)
+        try:
+            self.__items[slot]['item'].using_effects(target)
+        except:
+            print('This item cannot be used.')
+        else:
+            if self.__items[slot]['item'].can_be_used:
+                self.__items[slot]['amount'] -= 1
+                if self.__items[slot]['amount'] == 0:
+                    self.__items.pop(slot)
+            else:
+                print(self.__items[slot]['item'].reason)
     
     def display_inventory(self, target):
         InventoryDisplay(target, self.__items).show_display()
@@ -49,6 +57,7 @@ class Inventory:
 class Item:
     def __init__(self):
         self.name = 'item'
+        self.can_be_used = True
 
 
 class Apple(Item):
@@ -56,11 +65,17 @@ class Apple(Item):
         super().__init__()
         self.name = 'Apple'
         self.__health_restored = 10
+        self.reason = ''
     
     def using_effects(self, target):
-        target.set_health(target.get_health() + self.__health_restored)
-        if target.get_health() > 100:
-            target.set_health(100)
+        if target.get_health() < target.default_max_health:
+            self.can_be_used = True
+            target.set_health(target.get_health() + self.__health_restored)
+            if target.get_health() > target.default_max_health:
+                target.set_health(100)
+        else:
+            self.can_be_used = False
+            self.reason = f'{target.name}\'s health is full.'
 
 
 class Wood(Item):
