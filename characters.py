@@ -1,6 +1,6 @@
 import inventory
 from time import sleep
-from random import randrange, choice
+from random import randrange, random, choice
 from options import Question, StatusDisplay, LootGenerator, LootDisplay
 from loot_tables import looting
 from rich import print
@@ -66,8 +66,13 @@ class Player(Character):
         time_to_find = randrange(3, 11)
         print(f'{self.name} is moving...')
         sleep(time_to_find)
-        print(f'{self.name} has found an enemy')
-        self.find_enemy()
+
+        roll = random()
+        if roll * 100 <= 80:
+            print(f'{self.name} has found an enemy')
+            self.find_enemy()
+        else:
+            self.find_chest()
     
     def open_inventory(self) -> None:
         self.__inventory.display_inventory(self)
@@ -104,6 +109,19 @@ class Player(Character):
             self.fight(target_enemy)
         else:
             self.idle()
+    
+    def find_chest(self) -> None:
+        print('You found a chest!')
+
+        open_chest = Question('Do you want to open the chest?', 'YES', 'IGNORE CHEST').show_question()
+
+        if open_chest == 0:
+            loot_generated = LootGenerator(looting['chest']).generate_loot()
+            display = LootDisplay(self, loot_generated)
+            display.show_display()
+            display.collect(self.__inventory)
+        
+        self.idle()
         
     def fight(self, target) -> None:
         system('cls')
