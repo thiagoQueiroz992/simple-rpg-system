@@ -91,6 +91,8 @@ class Sword(Item):
         self.__damage = 35
     
     def using_effects(self, target):
+        if target.equipped_weapon != None:
+            target.get_inventory().add_item(target.equipped_weapon)
         target.equipped_weapon = self
         target.set_attack(self.__damage)
 
@@ -138,5 +140,7 @@ class LegendarySword(Item):
         self.__damage = 60
     
     def using_effects(self, target):
+        if target.equipped_weapon != None:
+            target.get_inventory().add_item(target.equipped_weapon)
         target.equipped_weapon = self
         target.set_attack(self.__damage)

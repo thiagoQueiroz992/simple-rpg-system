@@ -176,6 +176,9 @@ class Player(Character):
                 case 1:
                     exit()
         respawn()
+    
+    def get_inventory(self) -> inventory.Inventory:
+        return self.__inventory
         
 
 class Enemy(Character):
