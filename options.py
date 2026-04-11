@@ -7,44 +7,64 @@ from rich import inspect
 from os import system
 
 class Question:
-    def __init__(self, question: str, *options: str, multi_choice = True, min_range: int = 0, max_range: int = 1):
+    def __init__(self, question: str, *options: str, question_type = 'multi_choice', min_range: int = 0, max_range: int = 1):
         self.__question = question
         self.__options = options
-        self.__multi_choice = multi_choice
+        self.__question_type = question_type
         self.__min_range = min_range
         self.__max_range = max_range
     
-    def show_question(self) -> int:
+    def show_question(self) -> int | str:
         question_box = Panel(self.__question, title='Choose Time', style='bold yellow')
         answer_box = Table(expand=True, show_header=False, style='blue')
-        
-        answer_box.add_column('Digit', width=-1, justify='center')
-        answer_box.add_column('Option')
-        
-        for i, o in enumerate(self.__options):
-            answer_box.add_row(str(i), o, style='cyan bold')
-        
+
         print(question_box)
-        if self.__multi_choice: print(answer_box)
         
-        while True:
-            try:
-                answer = int(input(''))
-            except (KeyboardInterrupt, ValueError):
-                print('[red bold]Invalid input![/red bold]')
-                continue
-            else:
-                if self.__multi_choice:
-                    if answer in range(0, len(self.__options)):
-                        return answer
-                    else:
+        match self.__question_type:
+            case 'multi_choice':
+                answer_box.add_column('Digit', width=-1, justify='center')
+                answer_box.add_column('Option')
+                
+                for i, o in enumerate(self.__options):
+                    answer_box.add_row(str(i), o, style='cyan bold')
+                
+                print(answer_box)
+                
+                while True:
+                    try:
+                        answer = int(input(''))
+                    except (KeyboardInterrupt, ValueError):
                         print('[red bold]Invalid input![/red bold]')
                         continue
-                else:
-                    if answer in range(self.__min_range, self.__max_range):
-                        return answer
                     else:
+                        if answer in range(0, len(self.__options)):
+                            return answer
+                        else:
+                            print('[red bold]Invalid input![/red bold]')
+                            continue
+            
+            case 'range':
+                while True:
+                    try:
+                        answer = int(input(''))
+                    except (KeyboardInterrupt, ValueError):
                         print('[red bold]Invalid input![/red bold]')
+                        continue
+                    else:                       
+                        if answer in range(self.__min_range, self.__max_range):
+                            return answer
+                        else:
+                            print('[red bold]Invalid input![/red bold]')
+            
+            case 'text':
+                while True:
+                    try:
+                        answer = str(input(''))
+                    except (KeyboardInterrupt, ValueError):
+                        print('[red bold]Invalid input![/red bold]')
+                        continue
+                    else:
+                        return answer
 
 
 class InventoryDisplay:

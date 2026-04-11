@@ -45,7 +45,7 @@ class Inventory:
     def selection_mode(self, target, mode = 'use'):
         system('cls')
         self.display_inventory(target)
-        selection = Question('Enter a item\'s slot position:', '0', multi_choice=False, max_range=self.slots).show_question()
+        selection = Question('Enter a item\'s slot position:', '0', question_type='range', max_range=self.slots).show_question()
         if len(self.__items) - 1 < selection or self.__items == False:
             print('There\'s no item in this slot.')
             self.selection_mode(target)

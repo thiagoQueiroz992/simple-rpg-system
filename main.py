@@ -1,5 +1,14 @@
 import characters
-from rich import inspect
+from rich import inspect, print
+from rich.panel import Panel
+from rich.align import Align
+from os import system
+from options import Question
 
-player = characters.Player('Vasconcelos', 100, 20)
+system('cls')
+
+print(Panel(Align('ONEIHL\'S RPG GAME', align='center', vertical='middle'), subtitle='A RPG style game made for studying purpose', style='bold green', height=5))
+print()
+
+player = characters.Player(Question('Enter your name:', '-', question_type='text').show_question(), 100, 20)
 player.idle()
