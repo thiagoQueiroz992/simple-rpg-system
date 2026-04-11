@@ -104,6 +104,7 @@ class StatusDisplay:
         status_display.add_row(Align('[cyan bold]Name[/cyan bold]', align='center'), Align(self.__target.name, align='center'))
         status_display.add_row(Align('[cyan bold]Health[/cyan bold]', align='center'), Align(str(self.__target.get_health()), align='center'))
         status_display.add_row(Align('[cyan bold]Attack[/cyan bold]', align='center'), Align(str(self.__target.get_attack()), align='center'))
+        status_display.add_row(Align('[cyan bold]Weapon[/cyan bold]', align='center'), Align(self.__target.equipped_weapon.name if self.__target.equipped_weapon != None else 'In hand and in faith', align='center'))
 
         print(header)
         print(status_display)
