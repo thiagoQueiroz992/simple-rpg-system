@@ -5,6 +5,9 @@ from options import Question, StatusDisplay, LootGenerator, LootDisplay
 from loot_tables import looting
 from rich import print
 from rich import inspect
+from rich.panel import Panel
+from rich.table import Table
+from rich.align import Align
 from os import system
 
 class Character:
@@ -36,7 +39,7 @@ class Character:
     
     def die(self, death_message: str) -> None:
         system('cls')
-        print(death_message)
+        print(Panel(Align(death_message, align='center', vertical='middle'), style='red bold', height=5))
 
 
 class Player(Character):
@@ -131,22 +134,35 @@ class Player(Character):
         
     def fight(self, target) -> None:
         system('cls')
-        print(f'You are fighting against {target.name}!')
+        #print(f'You are fighting against {target.name}!')
+        print(Panel(Align(f'You are fighting against [cyan]{target.name}[/cyan]!', align='center', vertical='middle'), style='yellow bold', height=5))
+        sleep(1)
         fight_action = Question('What will you do?', 'ATTACK', 'DO NOTHING', 'FLEE')
         action_answer = 0
         while True:
+            fight_table = Table(expand=True, style='bold blue')
+            fight_table.add_column('FIGHTER')
+            fight_table.add_column('HEALTH')
+
+            fight_table.add_row(self.name, str(self.get_health()))
+            fight_table.add_row(target.name, str(target.get_health()))
+            
             if self.get_health() > 0:
+                print(fight_table)
                 action_answer = fight_action.show_question()
                 system('cls')
                 
                 match action_answer:
                     case 0:
                         self.attack(target)
-                        print(f'You attacked {target.name}!')
+                        print(Panel(Align(f'You attacked [cyan]{target.name}[/cyan]!', align='center'), style='yellow bold'))
+                        sleep(1)
                     case 1:
-                        print('You chose to do nothing.')
+                        print(Panel(Align(f'You chose to do nothing.', align='center'), style='purple bold'))
+                        sleep(1)
                     case 2:
-                        print('You chose to flee the fight.')
+                        print(Panel(Align(f'You chose to flee the fight.', align='center'), style='blue bold'))
+                        sleep(1.5)
                         self.idle()
                         break
             else:
@@ -155,10 +171,14 @@ class Player(Character):
             
             if target.get_health() > 0:
                 target.attack(self)
-                print(f'\n\n{target.name} attacked you!\n\n')
+                print('\n')
+                print(Panel(Align(f'[cyan]{target.name}[/cyan] attacked you!', align='center'), style='red bold'))
+                sleep(2)
+                system('cls')
             
             else:
-                print(f'YOU DEFEATED {target.name.upper()}!')
+                print(Panel(Align(f'YOU DEFEATED [cyan]{target.name.upper()}[/cyan]!', align='center'), style='green bold'))
+                sleep(2)
                 target.get_loot(self.__inventory)
                 self.idle()
                 break
@@ -181,6 +201,7 @@ class Player(Character):
                     self.idle()
                 case 1:
                     exit()
+        sleep(3)
         respawn()
     
     def get_inventory(self) -> inventory.Inventory:

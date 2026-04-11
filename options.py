@@ -131,7 +131,7 @@ class LootDisplay:
     
     def show_display(self) -> None:
         system('cls')
-        header = Panel(Align('ENEMY LOOT', align='center'), title=self.__target.name, style='yellow bold')
+        header = Panel(Align('LOOT', align='center'), title=self.__target.name, style='yellow bold')
         loot_display = Table(style='blue bold', show_header=False, expand=True)
         loot_display.add_column('ITEM', width=3)
         loot_display.add_column('AMOUNT', width=0)
