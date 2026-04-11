@@ -42,7 +42,7 @@ class Inventory:
     def display_inventory(self, target):
         InventoryDisplay(target, self.__items).show_display()
     
-    def selection_mode(self, target):
+    def selection_mode(self, target, mode = 'use'):
         system('cls')
         self.display_inventory(target)
         selection = Question('Enter a item\'s slot position:', '0', multi_choice=False, max_range=self.slots).show_question()
@@ -50,8 +50,14 @@ class Inventory:
             print('There\'s no item in this slot.')
             self.selection_mode(target)
         else:
-            self.use_item(selection, target)
-            print('You used the item.')
+            if mode == 'use':
+                self.use_item(selection, target)
+                print('You used the item.')
+            elif mode == 'destroy':
+                self.__items.pop(selection)
+                print('You destroyed the item.')
+            else:
+                print(f'Sorry, the mode {mode} does not exist.')
 
 
 class Item:

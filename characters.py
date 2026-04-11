@@ -77,14 +77,20 @@ class Player(Character):
     def open_inventory(self) -> None:
         self.__inventory.display_inventory(self)
         while True:
-            item_management = Question('What will you do in inventory?', 'USE ITEM', 'LEAVE').show_question()
-            if item_management == 0:
-                self.__inventory.selection_mode(self)
-                self.open_inventory()
-                break
-            else:
-                self.idle()
-                break
+            item_management = Question('What will you do in inventory?', 'USE ITEM', 'DESTROY ITEM', 'LEAVE').show_question()
+            
+            match item_management:
+                case 0:
+                    self.__inventory.selection_mode(self)
+                    self.open_inventory()
+                    break
+                case 1:
+                    self.__inventory.selection_mode(self, 'destroy')
+                    self.open_inventory()
+                    break
+                case 2:
+                    self.idle()
+                    break
     
     def open_status(self) -> None:
         StatusDisplay(self).show_display()
