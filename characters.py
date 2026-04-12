@@ -110,7 +110,12 @@ class Player(Character):
             }
         
         target_enemy = Enemy(enemy_data['name'], enemy_data['health'], enemy_data['attack'])
-        print(target_enemy.__dict__)
+        enemy_display = Table('TYPE', 'VALUE', title=target_enemy.name, expand=True, show_header=False, style='bold yellow', title_style='bold yellow')
+        enemy_display.add_row('Name', Align(target_enemy.name, align='center'), style='bold green')
+        enemy_display.add_row('Health', Align(str(target_enemy.get_health()) + ' HP', align='center'), style='bold green')
+        enemy_display.add_row('Attack', Align(str(target_enemy.get_attack()), align='center'), style='bold green')
+        
+        print(enemy_display)
         
         fight_against_enemy = Question(f'Do you want to fight against [cyan bold]{target_enemy.name}[/cyan bold]?', 'FIGHT', 'FLEE').show_question()
 
@@ -134,18 +139,17 @@ class Player(Character):
         
     def fight(self, target) -> None:
         system('cls')
-        #print(f'You are fighting against {target.name}!')
         print(Panel(Align(f'You are fighting against [cyan]{target.name}[/cyan]!', align='center', vertical='middle'), style='yellow bold', height=5))
         sleep(1)
         fight_action = Question('What will you do?', 'ATTACK', 'DO NOTHING', 'FLEE')
         action_answer = 0
         while True:
-            fight_table = Table(expand=True, style='bold blue')
+            fight_table = Table(expand=True, style='bold blue', show_header=False)
             fight_table.add_column('FIGHTER')
             fight_table.add_column('HEALTH')
 
-            fight_table.add_row(self.name, str(self.get_health()))
-            fight_table.add_row(target.name, str(target.get_health()))
+            fight_table.add_row(self.name, Align(str(self.get_health()) + ' HP', align='center'))
+            fight_table.add_row(target.name, Align(str(target.get_health()) + ' HP', align='center'))
             
             if self.get_health() > 0:
                 print(fight_table)
