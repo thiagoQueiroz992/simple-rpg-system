@@ -62,7 +62,8 @@ class Player(Character):
             case 2:
                 self.open_status()
             case 3:
-                exit()
+                self.exit_game()
+                self.idle()
     
     def move(self) -> None:
         system('cls')
@@ -210,12 +211,25 @@ class Player(Character):
                     self.set_health(100)
                     self.idle()
                 case 1:
-                    exit()
+                    self.exit_game()
+                    respawn()
         sleep(3)
         respawn()
     
     def get_inventory(self) -> inventory.Inventory:
         return self.__inventory
+    
+    def exit_game(self):
+        system('cls')
+        sure = Question('Are you sure to exit the game?', 'YES, EXIT', 'NO, STAY').show_question()
+
+        match sure:
+            case 0:
+                print(Panel(Align('You are leaving Oneilh\'s RPG Game. Thank you for playing <3', align='center'), style='bold green'))
+                sleep(1.5)
+                exit()
+            case 1:
+                system('cls')
         
 
 class Enemy(Character):
