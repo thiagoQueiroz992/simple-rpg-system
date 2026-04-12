@@ -59,12 +59,15 @@ class Question:
             case 'text':
                 while True:
                     try:
-                        answer = str(input(''))
+                        answer = str(input('')).strip()
                     except (KeyboardInterrupt, ValueError):
                         print('[red bold]Invalid input![/red bold]')
                         continue
                     else:
-                        return answer
+                        if len(answer) >= 3:
+                            return answer
+                        else:
+                            print('[red bold]The name must have at least 3 non space characters![/red bold]')
 
 
 class InventoryDisplay:
