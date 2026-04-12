@@ -67,12 +67,15 @@ class Player(Character):
     def move(self) -> None:
         system('cls')
         time_to_find = randrange(3, 11)
-        print(f'{self.name} is moving...')
+        #print(f'{self.name} is moving...')
+        print(Panel(Align(f'You are walking around the area.', align='center'), style='bold yellow'))
         sleep(time_to_find)
 
         roll = random()
         if roll * 100 <= 80:
-            print(f'{self.name} has found an enemy')
+            #print(f'{self.name} has found an enemy')
+            print(Panel(Align(f'You have found an enemy!', align='center'), style='bold yellow'))
+            sleep(1.5)
             self.find_enemy()
         else:
             self.find_chest()
@@ -103,6 +106,8 @@ class Player(Character):
             self.idle()
 
     def find_enemy(self) -> None:
+        system('cls')
+        
         enemy_data = {
             'name':choice(('Zombie', 'Vampire', 'Skeleton', 'Witch','Undead Knight')),
             'health': randrange(80, 201),
@@ -125,7 +130,10 @@ class Player(Character):
             self.idle()
     
     def find_chest(self) -> None:
-        print('You found a chest!')
+        #print('You found a chest!')
+        print(Panel(Align(f'You have found a chest!', align='center'), style='bold yellow'))
+        sleep(1.5)
+        system('cls')
 
         open_chest = Question('Do you want to open the chest?', 'YES', 'IGNORE CHEST').show_question()
 
