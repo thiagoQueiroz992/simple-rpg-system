@@ -1,4 +1,4 @@
-from rich import inspect
+from rich import inspect, print
 from options import Question, InventoryDisplay
 from os import system
 from time import sleep
@@ -30,14 +30,17 @@ class Inventory:
         try:
             self.__items[slot]['item'].using_effects(target)
         except:
-            print('This item cannot be used.')
+            print('[red bold]This item cannot be used.[/red bold]')
+            sleep(1.5)
         else:
             if self.__items[slot]['item'].can_be_used:
                 self.__items[slot]['amount'] -= 1
+                #print('[green bold]Item successfully used.[/green bold]')
                 if self.__items[slot]['amount'] == 0:
                     self.__items.pop(slot)
             else:
-                print(self.__items[slot]['item'].reason)
+                print('[red bold]' + self.__items[slot]['item'].reason + '[/red bold]')
+                sleep(1.5)
     
     def display_inventory(self, target):
         InventoryDisplay(target, self.__items).show_display()
@@ -47,15 +50,15 @@ class Inventory:
         self.display_inventory(target)
         selection = Question('Enter a item\'s slot position:', '0', question_type='range', max_range=self.slots).show_question()
         if len(self.__items) - 1 < selection or self.__items == False:
-            print('There\'s no item in this slot.')
+            print('[red bold]There\'s no item in this slot.[/red bold]')
+            sleep(1.5)
             self.selection_mode(target)
         else:
             if mode == 'use':
                 self.use_item(selection, target)
-                print('You used the item.')
             elif mode == 'destroy':
                 self.__items.pop(selection)
-                print('You destroyed the item.')
+                #print('[green bold]Item successfully destroyed.[/green bold]')
             else:
                 print(f'Sorry, the mode {mode} does not exist.')
 
