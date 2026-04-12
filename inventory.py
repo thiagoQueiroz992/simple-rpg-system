@@ -35,7 +35,6 @@ class Inventory:
         else:
             if self.__items[slot]['item'].can_be_used:
                 self.__items[slot]['amount'] -= 1
-                #print('[green bold]Item successfully used.[/green bold]')
                 if self.__items[slot]['amount'] == 0:
                     self.__items.pop(slot)
             else:
@@ -58,7 +57,6 @@ class Inventory:
                 self.use_item(selection, target)
             elif mode == 'destroy':
                 self.__items.pop(selection)
-                #print('[green bold]Item successfully destroyed.[/green bold]')
             else:
                 print(f'Sorry, the mode {mode} does not exist.')
 

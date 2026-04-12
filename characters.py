@@ -67,13 +67,11 @@ class Player(Character):
     def move(self) -> None:
         system('cls')
         time_to_find = randrange(3, 11)
-        #print(f'{self.name} is moving...')
         print(Panel(Align(f'You are walking around the area.', align='center'), style='bold yellow'))
         sleep(time_to_find)
 
         roll = random()
         if roll * 100 <= 80:
-            #print(f'{self.name} has found an enemy')
             print(Panel(Align(f'You have found an enemy!', align='center'), style='bold yellow'))
             sleep(1.5)
             self.find_enemy()
@@ -130,7 +128,6 @@ class Player(Character):
             self.idle()
     
     def find_chest(self) -> None:
-        #print('You found a chest!')
         print(Panel(Align(f'You have found a chest!', align='center'), style='bold yellow'))
         sleep(1.5)
         system('cls')
@@ -203,11 +200,12 @@ class Player(Character):
             
             match respawn_question:
                 case 0:
-                    print('Respawning in:', end=' ')
-                    sleep(1)
+                    print('[green bold]Respawning in:[/green bold]', end=' ')
                     for t in range(respawning_time, 0, -1):
-                        print(t, end='...')
-                        sleep(1)
+                        print('[blue bold]' + str(t) + '[/blue bold]', end='')
+                        for t in range(3):
+                            print('[blue bold].[/blue bold]', end='', flush=True)
+                            sleep(.333)
                     print()
                     self.set_health(100)
                     self.idle()
